@@ -27,6 +27,9 @@ public class MenuController : MonoBehaviour {
         tmp.a = 0.0f;
         GameObject.Find("HUD_Continue").GetComponent<SpriteRenderer>().color = tmp;
 
+        tmp = GameObject.Find("Xbox_button_A_sprite").GetComponent<SpriteRenderer>().color;
+        tmp.a = 0.0f;
+        GameObject.Find("Xbox_button_A_sprite").GetComponent<SpriteRenderer>().color = tmp;
         
 
         isCredit = false;
@@ -53,6 +56,15 @@ public class MenuController : MonoBehaviour {
         {
             SceneManager.LoadScene("Level", LoadSceneMode.Single);
         }
+        else if( Input.GetKeyDown ("joystick button 0"))
+        {
+            if(isTuto) {
+                SceneManager.LoadScene("Level", LoadSceneMode.Single);
+            }
+            else {
+                Play();
+            }  
+        }
     }
 
     void Play()
@@ -66,6 +78,10 @@ public class MenuController : MonoBehaviour {
             tmp = GameObject.Find("HUD_Continue").GetComponent<SpriteRenderer>().color;
             tmp.a = 1.0f;
             GameObject.Find("HUD_Continue").GetComponent<SpriteRenderer>().color = tmp;
+
+            tmp = GameObject.Find("Xbox_button_A_sprite").GetComponent<SpriteRenderer>().color;
+            tmp.a = 1.0f;
+            GameObject.Find("Xbox_button_A_sprite").GetComponent<SpriteRenderer>().color = tmp;
 
             isTuto = true;
         }

@@ -54,8 +54,13 @@ public class PantsuScript : MonoBehaviour
                 GameObject.Find("HUD_Restart").GetComponent<SpriteRenderer>().color = tmp;
                 tmp = GameObject.Find("HUD_Restart").GetComponent<SpriteRenderer>().color;
                 tmp.a = 1.0f;
+
+                tmp = GameObject.Find("Xbox_button_A").GetComponent<SpriteRenderer>().color;
+                tmp.a = 1.0f;
+                GameObject.Find("Xbox_button_A").GetComponent<SpriteRenderer>().color = tmp;
+
                 this.GetComponent<SpriteRenderer>().color = tmp;
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) ||  Input.GetKeyDown ("joystick button 0"))
                 {
                     SceneManager.LoadScene("Menu", LoadSceneMode.Single);
                 }

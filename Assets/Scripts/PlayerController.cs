@@ -127,37 +127,21 @@ public class PlayerController : MonoBehaviour
         m_movementV.y = 0f;
 
         //Player Movement when the character is alive
-        if (playerState == States.Default)
+        if (playerState == States.Boosted)
         {
-            if ((Input.GetKey("z")) || (Input.GetKey("up") || Input.GetAxis("Vertical") > 0.0f))
-            {
-                m_movementV.y = speed;
-            }
-            else if ((Input.GetKey("s")) || (Input.GetKey("down") || Input.GetAxis("Vertical") < 0.0f))
-            {
-                m_movementV.y = (-speed);
-            }
-            else
-            {
-                m_movementV.y = 0f;
-            }
+            speed = 7.5f;
 
-            if ((Input.GetKey("q")) || (Input.GetKey("left") || Input.GetAxis("Horizontal") < 0.0f))
+            currentTimeB += Time.deltaTime;
+            if (currentTimeB >= 5.0f)
             {
-                m_movementH.x = (-speed);
-            }
-            else if ((Input.GetKey("d")) || (Input.GetKey("right") || Input.GetAxis("Horizontal") > 0.0f))
-            {
-                m_movementH.x = speed;
-            }
-            else
-            {
-                m_movementH.x = 0f;
+                speed = 5f;
+                currentTimeB = 0f;
+                playerState = States.Default;
             }
         }
 
         //Player Movement when the character is stunned
-        else if ((playerState == States.Stunned))
+        if ((playerState == States.Stunned))
         {
             /*coroutine = Wait(2f);
             StartCoroutine(coroutine);*/
@@ -169,35 +153,37 @@ public class PlayerController : MonoBehaviour
                 currentTimeS = 0f;
             }
         }
-
-        //Player Movement when the character is confuse
-        else if (playerState == States.Confused)
+        else
         {
-            if ((Input.GetKey("s")) || (Input.GetKey("down") || Input.GetAxis("Vertical") < 0.0f))
+            m_movementV.y = Input.GetAxis("Vertical") * speed;
+            m_movementH.x = Input.GetAxis("Horizontal") * speed;
+
+            if ((Input.GetKey("z")) || (Input.GetKey("up"))) // || Input.GetAxis("Vertical") > 0.0f))
             {
                 m_movementV.y = speed;
             }
-            else if ((Input.GetKey("z")) || (Input.GetKey("up") || Input.GetAxis("Vertical") > 0.0f))
+            else if ((Input.GetKey("s")) || (Input.GetKey("down"))) // || Input.GetAxis("Vertical") < 0.0f))
             {
                 m_movementV.y = (-speed);
             }
-            else
-            {
-                m_movementV.y = 0f;
-            }
 
-            if ((Input.GetKey("d")) || (Input.GetKey("right") || Input.GetAxis("Horizontal") > 0.0f))
+            if ((Input.GetKey("q")) || (Input.GetKey("left"))) // || Input.GetAxis("Horizontal") < 0.0f))
             {
                 m_movementH.x = (-speed);
             }
-            else if ((Input.GetKey("q")) || (Input.GetKey("left") || Input.GetAxis("Horizontal") < 0.0f))
+            else if ((Input.GetKey("d")) || (Input.GetKey("right"))) // || Input.GetAxis("Horizontal") > 0.0f))
             {
                 m_movementH.x = speed;
             }
-            else
-            {
-                m_movementH.x = 0f;
-            }
+        }
+
+        //Player Movement when the character is confuse
+        if (playerState == States.Confused)
+        {
+            m_movementV.y = -m_movementV.y;
+
+            m_movementH.x = -m_movementH.x;
+
 
             currentTimeC += Time.deltaTime;
             if (currentTimeC >= 5.0f)
@@ -206,78 +192,9 @@ public class PlayerController : MonoBehaviour
                 currentTimeC = 0.0f;
             }
         }
-        else if (playerState == States.ForcedMovement)
+  
+        if (playerState == States.Protected)
         {
-            Debug.Log(this.transform.position);
-            this.transform.position += (Kidnapper.transform.position);
-            Debug.Log("AFTER = " + this.transform.position);
-            // - new Vector3(deltaTornado.x, deltaTornado.y, 0.0f);
-            /*m_movementH.x = (Kidnapper.transform.position.x) - (this.gameObject.transform.position.x);
-            m_movementV.y = (Kidnapper.transform.position.y) - (this.gameObject.transform.position.y);*/
-        }
-        else if (playerState == States.Boosted)
-        {
-            speed = 7.5f;
-            if ((Input.GetKey("z")) || (Input.GetKey("up") || Input.GetAxis("Vertical") > 0.0f))
-            {
-                m_movementV.y = speed;
-            }
-            else if ((Input.GetKey("s")) || (Input.GetKey("down") || Input.GetAxis("Vertical") < 0.0f))
-            {
-                m_movementV.y = (-speed);
-            }
-            else
-            {
-                m_movementV.y = 0f;
-            }
-
-            if ((Input.GetKey("q")) || (Input.GetKey("left") || Input.GetAxis("Horizontal") < 0.0f))
-            {
-                m_movementH.x = (-speed);
-            }
-            else if ((Input.GetKey("d")) || (Input.GetKey("right") || Input.GetAxis("Horizontal") > 0.0f))
-            {
-                m_movementH.x = speed;
-            }
-            else
-            {
-                m_movementH.x = 0f;
-            }
-            currentTimeB += Time.deltaTime;
-            if (currentTimeB >= 5.0f)
-            {
-                speed = 5f;
-                currentTimeB = 0f;
-                playerState = States.Default;
-            }
-        }
-        else if (playerState == States.Protected)
-        {
-            if ((Input.GetKey("z")) || (Input.GetKey("up") || Input.GetAxis("Vertical") < 0.0f))
-            {
-                m_movementV.y = speed;
-            }
-            else if ((Input.GetKey("s")) || (Input.GetKey("down") || Input.GetAxis("Vertical") > 0.0f))
-            {
-                m_movementV.y = (-speed);
-            }
-            else
-            {
-                m_movementV.y = 0f;
-            }
-
-            if ((Input.GetKey("q")) || (Input.GetKey("left") || Input.GetAxis("Horizontal") < 0.0f))
-            {
-                m_movementH.x = (-speed);
-            }
-            else if ((Input.GetKey("d")) || (Input.GetKey("right") || Input.GetAxis("Horizontal") > 0.0f))
-            {
-                m_movementH.x = speed;
-            }
-            else
-            {
-                m_movementH.x = 0f;
-            }
             currentTimeP += Time.deltaTime;
             if (currentTimeP >= 5.0f)
             {
@@ -376,22 +293,22 @@ public class PlayerController : MonoBehaviour
     {
         if(playerState == States.Confused)
         {
-            if (m_movementV.y < 0)
+            if (m_movementV.y < 0 && Mathf.Abs(m_movementV.y) > Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais en bas");
                 animator.Play("Paper_face", 0);
             }
-            else if (m_movementV.y > 0)
+            else if (m_movementV.y > 0 && Mathf.Abs(m_movementV.y) > Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais en haut");
                 animator.Play("Paper_dos", 0);
             }
-            else if (m_movementH.x < 0)
+            else if (m_movementH.x < 0 && Mathf.Abs(m_movementV.y) < Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais à gauche");
                 animator.Play("Paper_gauche", 0);
             }
-            else if (m_movementH.x > 0)
+            else if (m_movementH.x > 0 && Mathf.Abs(m_movementV.y) < Mathf.Abs(m_movementH.x))
             {
                 // Debug.Log("Je vais à droite");
                 animator.Play("Paper_droite", 0);
@@ -404,22 +321,22 @@ public class PlayerController : MonoBehaviour
         }
         else if ((playerState == States.Default) || (playerState == States.Boosted))
         {
-            if (m_movementV.y < 0)
+            if (m_movementV.y < 0 && Mathf.Abs(m_movementV.y) > Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais en bas");
                 animator.Play("Course_face", 0);
             }
-            else if (m_movementV.y > 0)
+            else if (m_movementV.y > 0 && Mathf.Abs(m_movementV.y) > Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais en haut");
                 animator.Play("Course_dos", 0);
             }
-            else if (m_movementH.x < 0)
+            else if (m_movementH.x < 0 && Mathf.Abs(m_movementV.y) < Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais à gauche");
                 animator.Play("Course_gauche", 0);
             }
-            else if (m_movementH.x > 0)
+            else if (m_movementH.x > 0 && Mathf.Abs(m_movementV.y) < Mathf.Abs(m_movementH.x))
             {
                 // Debug.Log("Je vais à droite");
                 animator.Play("Course_droite", 0);
@@ -437,22 +354,22 @@ public class PlayerController : MonoBehaviour
         else if (playerState == States.Protected)
         {
            
-            if (m_movementV.y < 0)
+            if (m_movementV.y < 0 && Mathf.Abs(m_movementV.y) > Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais en bas");
                 animator.Play("Umbrella_face", 0);
             }
-            else if (m_movementV.y > 0)
+            else if (m_movementV.y > 0 && Mathf.Abs(m_movementV.y) > Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais en haut");
                 animator.Play("Umbrella_dos", 0);
             }
-            else if (m_movementH.x < 0)
+            else if (m_movementH.x < 0 && Mathf.Abs(m_movementV.y) < Mathf.Abs(m_movementH.x))
             {
                 //Debug.Log("Je vais à gauche");
                 animator.Play("Umbrella_gauche", 0);
             }
-            else if (m_movementH.x > 0)
+            else if (m_movementH.x > 0 && Mathf.Abs(m_movementV.y) < Mathf.Abs(m_movementH.x))
             {
                 // Debug.Log("Je vais à droite");
                 animator.Play("Umbrella_droite", 0);

@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class GameControllerScript : MonoBehaviour
 {
     public AudioClip gameMusic;
-    private AudioSource source;
+    public AudioSource source;
+    public AudioSource BonusSource;
 
     public float m_gameScore;
     public GameObject WindPrefab;
@@ -120,6 +121,9 @@ public class GameControllerScript : MonoBehaviour
         tmp.a = 0.0f;
         GameObject.Find("HUD_Restart").GetComponent<SpriteRenderer>().color = tmp;
 
+        tmp = GameObject.Find("Xbox_button_A").GetComponent<SpriteRenderer>().color;
+        tmp.a = 0.0f;
+        GameObject.Find("Xbox_button_A").GetComponent<SpriteRenderer>().color = tmp;
         //
         // Find text object
         texts = new GameObject[10];
@@ -158,8 +162,8 @@ public class GameControllerScript : MonoBehaviour
     void Awake()
     {
 
-        source = GetComponent<AudioSource>();
-
+        //source = GetComponent<AudioSource>();
+       // sourceBonus = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -365,6 +369,7 @@ public class GameControllerScript : MonoBehaviour
         switch (evt)
         {
             case EEvent.chatplus:
+                BonusSource.Play();
                 if (m_currentMission == EMission.comboChat)
                 {
                     nbChat++;
@@ -379,6 +384,7 @@ public class GameControllerScript : MonoBehaviour
                 }*/
                 break;
             case EEvent.hentaiplus:
+                BonusSource.Play();
                 if (m_currentMission == EMission.comboHentai)
                 {
                     nbHentai++;
@@ -435,6 +441,7 @@ public class GameControllerScript : MonoBehaviour
                 }*/
                 break;
             case EEvent.autreEvent:
+                BonusSource.Play();
                 if (m_currentMission == EMission.esquive)
                 {
                     missionKO();

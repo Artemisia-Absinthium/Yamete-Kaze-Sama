@@ -75,7 +75,6 @@ public class CollectibleScript : MonoBehaviour {
             other.printScore(new Vector2(transform.position.x, transform.position.y), "+"+ m_scoreAdded);
             GameObject.FindWithTag("SpawnManagger").GetComponent<CollectiblesSpawning>().setFree(pos);
 
-
             go = GameObject.Find("Text");
             HUDscore hud = (HUDscore)go.GetComponent<HUDscore>();
             hud.AddScore(m_scoreAdded);
